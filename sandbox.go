@@ -2,8 +2,6 @@ package main
 
 import (
 	"bytes"
-	"fmt"
-
 	docker "github.com/fsouza/go-dockerclient"
 )
 
