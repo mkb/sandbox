@@ -1,8 +1,3 @@
-/*
-Package sandbox provides a safe and hassle-free way of running
-arbitrarily complex commands, with potentially harmful
-side-effects, without incurring the risk to the host system.
-*/
 package sandbox
 
 import (
