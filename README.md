@@ -1,8 +1,4 @@
 # sandbox
---
-    import "github.com/jhunt/sandbox"
-
-### Overview
 
 Package sandbox provides a safe and hassle-free way of running arbitrarily
 complex commands, with potentially harmful side-effects, without incurring the
@@ -11,6 +7,8 @@ risk to the host system.
 See what's in the root directory of the `ubuntu` Docker image:
 
 ```go
+import "github.com/jhunt/sandbox"
+
 rc, output, err := sandbox.Run(sandbox.Options{
     Image:   "ubuntu",
     Command: "ls -lah /",
