@@ -88,7 +88,7 @@ func Run(opt Options) string {
 		return fmt.Sprintf(">> error: %s\n", err)
 	}
 
-	_, err := client.WaitContainer(c.ID)
+	_, err = client.WaitContainer(c.ID)
 	if err != nil {
 		return fmt.Sprintf(">> error: %s\n", err)
 	}
