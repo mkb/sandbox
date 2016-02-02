@@ -9,7 +9,7 @@ See what's in the root directory of the `ubuntu` Docker image:
 
 ```go
 
-rc, output, err := sandbox.Run(sandbox.Options{
+output := sandbox.Run(sandbox.Options{
     Image:   "ubuntu",
     Command: "ls -lah /",
 })
@@ -21,7 +21,7 @@ minutes for it to complete):
 
 ```go
 
-rc, output, err := sandbox.Run(sandbox.Options{
+output := sandbox.Run(sandbox.Options{
     Image:   "ubuntu",
     Command: "set -x; curl -Lv http://susp.ic.io.us/install.sh | sudo /bin/sh -c",
     Timeout: 300,

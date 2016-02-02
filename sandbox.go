@@ -34,7 +34,7 @@ type Options struct {
 // Run spins up a new sandbox container, issues the command(s), and
 // then waits for the exit code and output (both standard output
 // and standard error, intermixed).
-func Run(opt Options) (int, string, error) {
+func Run(opt Options) string {
 	if opt.Endpoint == "" {
 		opt.Endpoint = "unix:///var/run/docker.sock"
 	}
@@ -45,12 +45,12 @@ func Run(opt Options) (int, string, error) {
 		opt.Timeout = 30
 	}
 	if opt.Command == "" {
-		return -1, "", fmt.Errorf("no command specified")
+		return ">> error: no command specified\n"
 	}
 
 	client, err := docker.NewClient(opt.Endpoint)
 	if err != nil {
-		return -1, "", err
+		return fmt.Sprintf(">> error: %s\n", err)
 	}
 
 	c, err := client.CreateContainer(docker.CreateContainerOptions{
@@ -61,7 +61,7 @@ func Run(opt Options) (int, string, error) {
 		},
 	})
 	if err != nil {
-		return -1, "", err
+		return fmt.Sprintf(">> error: %s\n", err)
 	}
 
 	output := make(chan string, 0)
@@ -85,14 +85,14 @@ func Run(opt Options) (int, string, error) {
 
 	err = client.StartContainer(c.ID, nil)
 	if err != nil {
-		return -1, "", err
+		return fmt.Sprintf(">> error: %s\n", err)
 	}
 
-	rc, err := client.WaitContainer(c.ID)
+	_, err := client.WaitContainer(c.ID)
 	if err != nil {
-		return -1, "", err
+		return fmt.Sprintf(">> error: %s\n", err)
 	}
 
 	client.RemoveContainer(docker.RemoveContainerOptions{ID: c.ID})
-	return rc, <-output, nil
+	return <-output
 }
